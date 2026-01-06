@@ -1,15 +1,15 @@
-# OS files
+# macOS
 .DS_Store
-Thumbs.db
+.AppleDouble
+.LSOverride
 
-# Editor files
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
+# Exclude subdirectories (they are separate git repositories)
+firmware/
+app/
+cloud/
+web/
+homeassistant/
+wiki/
 
-# Temporary files
-*.tmp
-*.log
+.keys
 
