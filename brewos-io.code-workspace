@@ -1,0 +1,54 @@
+{
+  "folders": [
+    {
+      "name": "BrewOS (Root)",
+      "path": "."
+    },
+    {
+      "name": "BrewOS Firmware",
+      "path": "firmware"
+    },
+    {
+      "name": "BrewOS App",
+      "path": "app"
+    },
+    {
+      "name": "BrewOS Cloud",
+      "path": "cloud"
+    },
+    {
+      "name": "BrewOS Web",
+      "path": "web"
+    },
+    {
+      "name": "BrewOS Home Assistant",
+      "path": "homeassistant"
+    },
+    {
+      "name": "BrewOS Wiki",
+      "path": "wiki"
+    }
+  ],
+  "settings": {
+    "files.exclude": {
+      "**/.git": true,
+      "**/node_modules": true,
+      "**/.pio": true,
+      "**/build": true,
+      "**/dist": true
+    },
+    "git.autoRepositoryDetection": true,
+    "git.detectSubmodules": true,
+    "git.scanRepositories": [
+      ".",
+      "./firmware",
+      "./app",
+      "./cloud",
+      "./web",
+      "./homeassistant",
+      "./wiki"
+    ],
+    "scm.repositories.visible": 10,
+    "scm.defaultViewMode": "tree"
+  }
+}
