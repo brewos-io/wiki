@@ -1,14 +1,80 @@
 # MQTT Integration
 
-BrewOS supports MQTT (Message Queuing Telemetry Transport) for home automation integration with Home Assistant, Node-RED, and other automation platforms.
+BrewOS supports MQTT (Message Queuing Telemetry Transport) for home automation integration with Home Assistant, Node-RED, and other automation platforms. MQTT is a lightweight, efficient messaging protocol that enables your espresso machine to communicate with smart home systems and automation platforms.
 
 ## Overview
 
-MQTT provides:
-- **Lightweight messaging** - Efficient pub/sub protocol
-- **Home automation** - Integrate with Home Assistant, Node-RED
-- **Real-time updates** - Machine status published continuously
-- **Command control** - Control machine via MQTT commands
+MQTT provides a standardized way to integrate your machine with automation systems:
+
+- **Lightweight messaging** - Efficient pub/sub protocol (minimal overhead)
+- **Home automation** - Integrate with Home Assistant, Node-RED, OpenHAB, and more
+- **Real-time updates** - Machine status published continuously (1 second intervals)
+- **Command control** - Control machine via MQTT commands (bidirectional)
+- **Reliable delivery** - Quality of Service (QoS) levels ensure message delivery
+- **Retained messages** - Last known state available on connection
+
+## Understanding MQTT
+
+### What is MQTT?
+
+MQTT (Message Queuing Telemetry Transport) is a lightweight messaging protocol designed for IoT devices:
+
+**Key Characteristics:**
+- **Pub/Sub Model**: Publishers send messages to topics, subscribers receive messages from topics
+- **Broker-Based**: Central broker routes messages between publishers and subscribers
+- **Lightweight**: Minimal overhead, efficient for low-bandwidth connections
+- **Reliable**: Quality of Service levels ensure message delivery
+- **Standard**: Industry-standard protocol used by many IoT platforms
+
+**How It Works:**
+1. **Broker**: Central server that routes messages (e.g., Mosquitto, Home Assistant MQTT)
+2. **Publisher**: Device that sends messages (your BrewOS machine)
+3. **Subscriber**: Device that receives messages (Home Assistant, Node-RED, etc.)
+4. **Topics**: Hierarchical message channels (e.g., `brewos/device123/status`)
+5. **Messages**: Data payloads (JSON, text, binary)
+
+### MQTT Architecture
+
+**BrewOS as Publisher:**
+- Publishes machine status to topics
+- Updates published every 1 second
+- Status includes temperatures, pressure, state, etc.
+- Other devices can subscribe to receive updates
+
+**BrewOS as Subscriber:**
+- Subscribes to command topic
+- Receives commands from automation systems
+- Processes commands and controls machine
+- Publishes status updates confirming actions
+
+**Broker Role:**
+- Routes messages between publishers and subscribers
+- Doesn't process or store data (just routes)
+- Can be local (Home Assistant) or cloud-based
+- Handles authentication and authorization
+
+### Topic Structure
+
+All MQTT topics follow a hierarchical structure:
+
+**Pattern:** `{prefix}/{device_id}/{topic}`
+
+**Example Topics:**
+- `brewos/abc123/status` - Machine status
+- `brewos/abc123/command` - Commands to machine
+- `brewos/abc123/power` - Power meter readings
+- `brewos/abc123/statistics` - Shot statistics
+
+**Topic Components:**
+- **Prefix**: `brewos` (default, configurable)
+- **Device ID**: Unique identifier (derived from MAC address)
+- **Topic**: Specific data type (status, command, power, etc.)
+
+**Why This Structure:**
+- **Organization**: Easy to identify messages from different devices
+- **Filtering**: Subscribers can filter by device or topic
+- **Scalability**: Supports multiple machines on same broker
+- **Standard**: Follows common MQTT naming conventions
 
 ## Setup
 

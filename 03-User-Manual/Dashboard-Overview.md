@@ -66,18 +66,72 @@ Summary of most recent shot:
 
 ### Real-Time Updates
 
-All data updates automatically via WebSocket:
-- Temperatures update every second
-- Pressure updates during brewing
-- Status changes reflect immediately
-- No page refresh needed
+The Dashboard uses WebSocket technology for real-time bidirectional communication:
+
+**How Real-Time Updates Work:**
+- **WebSocket Connection**: Persistent connection between your device and ESP32
+- **Push Updates**: ESP32 pushes data to your device automatically (no polling)
+- **Bidirectional**: Your device can send commands, ESP32 sends status updates
+- **Low Latency**: Updates appear almost instantly (<100ms on local network)
+- **Automatic Reconnection**: If connection drops, automatically reconnects
+
+**Update Frequencies:**
+- **Temperatures**: Update every 1 second (brew, steam, group head)
+- **Pressure**: Updates multiple times per second during brewing (10-20 Hz)
+- **Status changes**: Reflect immediately when machine state changes
+- **Power meter**: Updates every 1 second (if installed)
+- **Scale weight**: Updates in real-time during brewing (if connected)
+- **Connection status**: Updates when connection state changes
+
+**What Updates in Real-Time:**
+- All temperature readings (brew, steam, group head)
+- Machine state (standby, heating, ready, brewing, etc.)
+- Pressure readings during brewing
+- Power consumption and energy usage
+- Scale weight during brewing
+- Connection status indicators
+- Shot timer and statistics
+
+**No Page Refresh Needed:**
+- Traditional web pages require refresh to see new data
+- Dashboard uses WebSocket for live updates
+- Data flows continuously without page reload
+- Seamless user experience
 
 ### Temperature Monitoring
 
-Monitor all temperature zones:
-- **Brew boiler** - Precise PID control
-- **Steam boiler** - Steam temperature
-- **Group head** - Shot temperature
+The Dashboard provides comprehensive temperature monitoring across all critical zones:
+
+**Brew Boiler Temperature:**
+- **Purpose**: Water temperature for espresso extraction
+- **Control**: Precise PID control maintains setpoint within ±0.1°C
+- **Typical Range**: 90-97°C (194-207°F) depending on coffee and preference
+- **Display**: Large gauge shows current temperature and setpoint
+- **Color Coding**: Blue (below), green (at setpoint), red (above)
+- **Importance**: Critical for consistent espresso extraction
+
+**Steam Boiler Temperature:**
+- **Purpose**: Steam generation for milk frothing
+- **Control**: Independent PID loop (separate from brew boiler)
+- **Typical Range**: 140-145°C (284-293°F)
+- **Display**: Separate gauge with setpoint indicator
+- **Status**: Shows when steam is ready
+- **Auto-fill**: Automatic water level management
+
+**Group Head Temperature:**
+- **Purpose**: Temperature at the point of extraction (most critical)
+- **Monitoring**: K-type thermocouple measures group head temperature
+- **No Control**: Group head is passive (monitored only, not controlled)
+- **Display**: Real-time reading shown on dashboard
+- **Importance**: Most important temperature for shot quality
+- **Thermal Mass**: Group head temperature lags behind boiler temperature
+- **Preheating**: Takes 15-20 minutes for group head to fully heat
+
+**Understanding Temperature Relationships:**
+- **Brew boiler** → **Group head**: Heat transfers from boiler to group head
+- **Thermal lag**: Group head takes time to reach boiler temperature
+- **Stability**: Group head temperature should stabilize before brewing
+- **Recovery**: Group head cools slightly during shot, recovers between shots
 
 ### Power Monitoring
 

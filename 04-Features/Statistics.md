@@ -1,14 +1,168 @@
 # Statistics
 
-BrewOS automatically tracks shot history, temperature data, and machine statistics for analysis and optimization.
+BrewOS automatically tracks shot history, temperature data, and machine statistics for analysis and optimization. This comprehensive data collection helps you understand your machine's performance, identify trends, and improve your espresso quality over time.
 
 ## Overview
 
-Statistics features include:
-- **Shot history** - Complete record of every shot
-- **Temperature graphs** - Historical temperature data
-- **Pressure profiles** - Shot pressure curves
+Statistics features provide comprehensive data collection and analysis:
+
+- **Shot history** - Complete record of every shot with all parameters
+- **Temperature graphs** - Historical temperature data over time
+- **Pressure profiles** - Shot pressure curves for analysis
 - **Machine statistics** - Uptime, shot counts, energy usage
+- **Trend analysis** - Identify patterns and changes over time
+- **Performance metrics** - Track consistency and quality
+
+## How Statistics Work
+
+### Data Collection
+
+**Automatic Recording:**
+- Every shot is automatically recorded when brewing completes
+- No manual intervention required
+- Data collected includes all available sensors and parameters
+- Stored in non-volatile memory (survives power loss)
+
+**What Gets Recorded:**
+- **Shot Parameters**: Duration, temperature, pressure, weight
+- **Timing**: Date, time, shot number
+- **Machine State**: State at shot start, heating strategy used
+- **Sensor Data**: All available sensor readings during shot
+- **Calculated Metrics**: Flow rate, average pressure, peak pressure
+
+**Data Storage:**
+- Stored in ESP32 flash memory (LittleFS filesystem)
+- Limited by available flash space (typically 1000+ shots)
+- Older shots may be automatically purged when space is full
+- Data can be exported for long-term storage
+
+### Shot History
+
+**Complete Shot Records:**
+
+Each shot includes comprehensive data:
+
+- **Date and Time**: When shot was pulled (timestamp)
+- **Duration**: Shot time in seconds (from start to stop)
+- **Temperature**: Brew temperature at shot start (critical for extraction)
+- **Peak Pressure**: Maximum pressure during shot (typically 8-9 bar)
+- **Average Pressure**: Average extraction pressure (consistency indicator)
+- **Weight**: Final shot weight in grams (if scale connected)
+- **Flow Rate**: Average flow rate (if calculable from weight/time)
+- **Group Head Temp**: Group head temperature at shot start
+- **Shot Number**: Sequential shot number (for tracking)
+
+**Viewing Shot History:**
+
+1. **Navigate to Statistics**:
+   - Click "Statistics" in navigation menu
+   - View list of recent shots (most recent first)
+   - Scroll to see older shots
+
+2. **Shot Details**:
+   - Click any shot to view detailed information
+   - See temperature and pressure graphs for that shot
+   - Review all shot parameters
+   - Compare with other shots
+
+**Shot Analysis:**
+
+- **Compare Shots**: See how shots differ in parameters
+- **Identify Trends**: Track changes over time (temperature drift, pressure changes)
+- **Optimize Settings**: Use data to improve shot quality
+- **Track Quality**: Monitor consistency (are shots getting better or worse?)
+- **Troubleshoot Issues**: Identify problems (temperature drops, pressure issues)
+
+### Temperature Graphs
+
+**Historical Temperature Data:**
+
+View temperature over extended time periods:
+
+- **Brew Temperature**: Historical brew boiler temperature
+  - See temperature stability over time
+  - Identify temperature drift or PID issues
+  - Track temperature during different times of day
+  - Compare temperature with ambient conditions
+
+- **Steam Temperature**: Historical steam boiler temperature
+  - Monitor steam boiler performance
+  - Identify heating issues
+  - Track steam temperature stability
+
+- **Group Head Temperature**: Group head temperature history
+  - Most important temperature for shot quality
+  - See thermal stability and recovery
+  - Identify preheating effectiveness
+  - Track group head temperature during shots
+
+**Time Range Selection:**
+- **Last Hour**: Recent temperature behavior
+- **Last Day**: Daily temperature patterns
+- **Last Week**: Weekly trends and patterns
+- **Custom Range**: Select specific time period
+
+**Shot Temperature Analysis:**
+
+Temperature during specific shot:
+
+- **Shot Start Temperature**: Temperature when shot began (critical)
+- **Temperature Stability**: How stable temperature was during shot
+- **Temperature Recovery**: How quickly temperature recovered after shot
+- **Thermal Management**: See if machine handled thermal load properly
+
+### Pressure Profiles
+
+**Shot Pressure Curves:**
+
+Visual representation of pressure during extraction:
+
+- **Pressure Graph**: Visual pressure profile over time
+- **Peak Pressure**: Maximum pressure reached during shot
+- **Average Pressure**: Average pressure during extraction
+- **Pressure Stability**: Consistency of pressure (should be steady)
+- **Pressure Ramp**: How pressure builds at shot start
+
+**Analysis:**
+
+- **Optimal Pressure**: 8-9 bar typical for espresso
+- **Pressure Ramp**: Should build smoothly, not spike
+- **Stability**: Pressure should be consistent during extraction
+- **Issues**: Identify pressure problems (too high, too low, unstable)
+- **Grind Impact**: See how grind affects pressure profile
+
+**What Good Pressure Looks Like:**
+- Smooth ramp-up to 8-9 bar
+- Stable during extraction (minimal variation)
+- Gradual decline at end (if pre-infusion or flow control)
+- No spikes or drops
+
+### Machine Statistics
+
+**Summary Statistics:**
+
+- **Total Shots**: Lifetime shot count (since last reset)
+- **Shots Today**: Shots pulled today (resets at midnight)
+- **Uptime**: Total machine uptime (how long machine has been on)
+- **Energy Usage**: Daily and total kWh (if power meter installed)
+- **Average Shot Time**: Average duration of shots
+- **Average Temperature**: Average brew temperature
+
+**Maintenance Statistics:**
+
+- **Shots Since Cleaning**: Counter for maintenance reminders
+- **Cleaning Reminders**: Automatic reminders based on shot count
+- **Last Cleaning**: When machine was last cleaned (manual entry)
+- **Maintenance Schedule**: Recommended cleaning intervals
+- **Maintenance Alerts**: Warnings when cleaning is due
+
+**Energy Statistics (if power meter installed):**
+
+- **Daily Energy**: kWh consumed today
+- **Total Energy**: Lifetime energy consumption
+- **Average Power**: Average power consumption
+- **Peak Power**: Maximum power draw
+- **Cost Tracking**: Estimated energy costs
 
 ## Shot History
 

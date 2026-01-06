@@ -24,41 +24,139 @@ The Settings page provides comprehensive configuration options for your BrewOS s
 
 ## Temperature Settings
 
+Temperature control is the heart of espresso quality. These settings allow you to fine-tune your machine's temperature behavior for optimal extraction.
+
 ### Brew Temperature
 
-- **Setpoint** - Target brew temperature (typically 93-95°C)
-- **Max Temperature** - Maximum allowed temperature
-- **PID Tuning** - Advanced PID parameters (expert mode)
+**Setpoint:**
+- **Purpose**: Target temperature for espresso extraction
+- **Typical Range**: 93-95°C (200-203°F) for most coffees
+- **Lower Temperatures** (90-92°C): Better for light roasts, brighter flavors, more acidity
+- **Higher Temperatures** (95-97°C): Better for dark roasts, more extraction, less acidity
+- **Adjustment**: Fine-tune based on your coffee and taste preferences
+- **Stability**: PID maintains within ±0.1°C of setpoint
+
+**Max Temperature:**
+- **Safety Limit**: Maximum allowed temperature (prevents overheating)
+- **Default**: 100°C (212°F) - boiling point of water
+- **Safety**: Machine shuts down if temperature exceeds this limit
+- **Protection**: Prevents damage to machine and safety hazards
+
+**PID Tuning (Advanced):**
+- **What is PID**: Proportional-Integral-Derivative control algorithm
+- **Purpose**: Fine-tune how the system responds to temperature changes
+- **P (Proportional)**: Responds to current error (how far from setpoint)
+- **I (Integral)**: Eliminates steady-state error (long-term accuracy)
+- **D (Derivative)**: Reduces overshoot (prevents temperature spikes)
+- **Default Values**: Work well for most machines (don't change unless needed)
+- **Expert Mode**: Only modify if you understand PID control
+- **Warning**: Incorrect tuning can cause instability or poor control
 
 ### Steam Temperature
 
-- **Setpoint** - Target steam temperature (typically 140-145°C)
-- **Max Temperature** - Maximum allowed temperature
+**Setpoint:**
+- **Purpose**: Target temperature for steam generation
+- **Typical Range**: 140-145°C (284-293°F)
+- **Higher Temperature**: More steam pressure, faster frothing, more power
+- **Lower Temperature**: More control, gentler steaming, less power consumption
+- **Independent Control**: Separate from brew boiler (dual boiler machines)
+- **Steam Quality**: Affects steam pressure and frothing capability
+
+**Max Temperature:**
+- **Safety Limit**: Maximum allowed steam temperature
+- **Default**: 165°C (329°F) - safety shutdown threshold
+- **Critical**: Exceeding this triggers automatic safety shutdown
+- **Protection**: Prevents dangerous over-temperature conditions
 
 ### Group Head
 
-- **Thermocouple** - Group head sensor configuration
-- **Offset** - Temperature offset calibration
+**Thermocouple Configuration:**
+- **Sensor Type**: K-type thermocouple (most common)
+- **Location**: Installed in group head to measure extraction temperature
+- **Purpose**: Monitor temperature at point of extraction (most critical)
+- **Calibration**: May need calibration if readings seem inaccurate
+
+**Temperature Offset:**
+- **Purpose**: Calibrate group head temperature reading
+- **When Needed**: If group head reading doesn't match known good thermometer
+- **Adjustment**: Add/subtract offset to correct reading
+- **Typical Range**: ±2°C adjustment usually sufficient
+- **Calibration Process**: Compare to known good thermometer, adjust offset
 
 ### Units
 
-- **Temperature** - Celsius or Fahrenheit
-- **Pressure** - Bar or PSI
+**Temperature Units:**
+- **Celsius**: Default, standard for espresso (recommended)
+- **Fahrenheit**: Available for user preference
+- **Conversion**: Automatic conversion in all displays
+- **Note**: PID control always uses Celsius internally
+
+**Pressure Units:**
+- **Bar**: Default, standard for espresso (1 bar = atmospheric pressure)
+- **PSI**: Pounds per square inch (alternative unit)
+- **Typical Range**: 8-9 bar for espresso extraction
+- **Conversion**: 1 bar ≈ 14.5 PSI
 
 ## Network Settings
 
+Network settings configure how your machine connects to your local network and the internet. Proper network configuration is essential for web interface access, cloud features, and integrations.
+
 ### WiFi Configuration
 
-- **SSID** - WiFi network name
-- **Password** - WiFi password
-- **Static IP** - Optional static IP configuration
-- **mDNS Name** - Hostname for local access (default: `brewos.local`)
+**SSID (Network Name):**
+- **Purpose**: WiFi network your machine connects to
+- **Selection**: Choose from available networks (2.4GHz only)
+- **Important**: ESP32 only supports 2.4GHz networks (not 5GHz)
+- **Multiple Networks**: Can configure multiple networks (machine connects to strongest)
+- **Hidden Networks**: Can connect to hidden networks by entering SSID manually
+
+**Password:**
+- **Security**: WPA2/WPA3 password for your WiFi network
+- **Encryption**: Stored securely on ESP32
+- **Multiple Networks**: Different password for each network if configured
+
+**Static IP (Optional):**
+- **Purpose**: Assign fixed IP address to machine
+- **When to Use**: If you need consistent IP address (port forwarding, firewall rules)
+- **Configuration**: IP address, subnet mask, gateway, DNS servers
+- **Default**: DHCP (automatic IP assignment) - recommended for most users
+- **Advantages**: Consistent address, easier for some network configurations
+- **Disadvantages**: Must ensure IP doesn't conflict with other devices
+
+**mDNS Name (Hostname):**
+- **Purpose**: Easy-to-remember name for accessing machine
+- **Default**: `brewos.local`
+- **How It Works**: Multicast DNS allows you to use name instead of IP address
+- **Access**: Use `http://brewos.local` instead of `http://192.168.1.x`
+- **Requirements**: Your device must support mDNS (most modern devices do)
+- **Customization**: Can change to custom name if desired
 
 ### Connection Status
 
-- **Current IP** - Shows current IP address
-- **Signal Strength** - WiFi signal quality
-- **Connection Status** - Connected/disconnected indicator
+**Current IP Address:**
+- **Display**: Shows machine's current IP address on network
+- **Use**: Use this IP to access web interface if mDNS doesn't work
+- **DHCP**: Shows dynamically assigned IP (changes on reconnect)
+- **Static**: Shows configured static IP (always the same)
+
+**Signal Strength:**
+- **Indicator**: WiFi signal quality (RSSI - Received Signal Strength Indicator)
+- **Range**: -30 dBm (excellent) to -90 dBm (poor)
+- **Typical**: -50 to -70 dBm is good signal
+- **Factors**: Distance from router, obstacles, interference
+- **Improvement**: Move machine closer to router, reduce obstacles
+
+**Connection Status:**
+- **Connected**: Machine is connected to WiFi and has IP address
+- **Disconnected**: Not connected (check SSID, password, signal strength)
+- **Connecting**: Attempting to connect (may take 30-60 seconds)
+- **Error**: Connection failed (check settings, router, signal)
+
+**Network Troubleshooting:**
+- **Can't Connect**: Verify SSID and password, check 2.4GHz network, check signal strength
+- **Weak Signal**: Move machine closer to router, check for interference
+- **IP Issues**: Try DHCP first, use static IP only if needed
+- **mDNS Not Working**: Use IP address directly, check device mDNS support
 
 ## MQTT Settings
 

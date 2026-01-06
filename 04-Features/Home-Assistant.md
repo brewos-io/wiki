@@ -1,14 +1,80 @@
 # Home Assistant Integration
 
-BrewOS provides native Home Assistant integration with automatic entity discovery and a custom Lovelace card.
+BrewOS provides native Home Assistant integration with automatic entity discovery and a custom Lovelace card. This integration allows you to control your espresso machine as part of your smart home ecosystem, create automations, and integrate with other smart devices.
 
 ## Overview
 
-Home Assistant integration includes:
-- **MQTT Auto-Discovery** - Automatic entity creation
-- **35+ Entities** - Sensors, switches, numbers, selects, buttons
-- **Custom Lovelace Card** - Beautiful machine control card
-- **Example Automations** - Sample automations and dashboards
+Home Assistant integration transforms your espresso machine into a smart home device:
+
+- **MQTT Auto-Discovery** - Automatic entity creation (no manual configuration)
+- **35+ Entities** - Comprehensive sensors, switches, numbers, selects, buttons
+- **Custom Lovelace Card** - Beautiful machine control card for dashboards
+- **Example Automations** - Sample automations and dashboards to get started
+- **Real-time Updates** - Live status updates via MQTT
+- **Full Control** - Complete machine control from Home Assistant
+
+## How the Integration Works
+
+### Integration Methods
+
+BrewOS supports two methods for Home Assistant integration:
+
+**Method 1: MQTT Auto-Discovery (Recommended)**
+- BrewOS publishes Home Assistant discovery messages via MQTT
+- Home Assistant automatically discovers and creates entities
+- No manual configuration required
+- Works with Home Assistant's built-in MQTT integration
+- Entities appear automatically in Home Assistant
+
+**Method 2: Native Integration (HACS)**
+- Custom Home Assistant integration installed via HACS
+- Provides additional features and tighter integration
+- Custom Lovelace card included
+- More advanced functionality
+- Requires HACS installation
+
+### MQTT Auto-Discovery Explained
+
+**How Auto-Discovery Works:**
+1. BrewOS connects to your MQTT broker (Home Assistant's or external)
+2. BrewOS publishes discovery messages to `homeassistant/` topic
+3. Home Assistant's MQTT integration listens for discovery messages
+4. When discovery message received, Home Assistant creates entity automatically
+5. Entity appears in Home Assistant with proper device, name, and state
+6. Updates flow automatically via MQTT topics
+
+**Discovery Message Format:**
+- Published to: `homeassistant/{component}/{device_id}/{entity_id}/config`
+- Contains: Entity configuration, device info, availability topic, state topic, command topic
+- Home Assistant reads this and creates entity automatically
+- No manual YAML configuration needed
+
+**Advantages:**
+- **Zero configuration** - Entities appear automatically
+- **Standard method** - Uses Home Assistant's standard MQTT discovery
+- **Easy setup** - Just enable in BrewOS settings
+- **Automatic updates** - New entities appear automatically if firmware adds them
+
+### Communication Flow
+
+**Status Updates (Machine → Home Assistant):**
+```
+ESP32 → MQTT Broker → Home Assistant
+```
+- Machine publishes status to MQTT topics
+- Home Assistant subscribes to these topics
+- Status updates flow automatically
+- Real-time updates (typically 1 second intervals)
+
+**Commands (Home Assistant → Machine):**
+```
+Home Assistant → MQTT Broker → ESP32 → Pico
+```
+- You control entity in Home Assistant
+- Home Assistant publishes command to MQTT
+- ESP32 receives command and processes it
+- ESP32 sends command to Pico for execution
+- Status update confirms command executed
 
 ## Setup
 
