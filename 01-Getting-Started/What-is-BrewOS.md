@@ -2,6 +2,8 @@
 
 BrewOS is an open-source control system designed to replace factory controllers in espresso machines. It provides enhanced temperature control, real-time monitoring, and modern features while maintaining safety as the top priority.
 
+> **⚠️ Disclaimer:** BrewOS is provided "as is" without warranty. Use at your own risk. See the [full disclaimer](../README.md#-disclaimer) for important information about your responsibilities and limitations of liability.
+
 ## Overview
 
 BrewOS transforms your espresso machine into a smart, connected device. Whether you have a dual boiler, single boiler, or heat exchanger machine, BrewOS provides precise control and monitoring capabilities that rival or exceed commercial-grade systems.

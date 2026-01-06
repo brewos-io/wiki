@@ -2,6 +2,8 @@
 
 This guide covers the physical installation of the BrewOS control board, sensors, and wiring. **This work involves mains voltage and should only be performed by qualified individuals.**
 
+> **⚠️ Disclaimer:** BrewOS is provided "as is" without warranty. Use at your own risk. You assume full responsibility for any use, modification, or installation. See the [full disclaimer](../../README.md#-disclaimer) for important information.
+
 ## ⚠️ Safety Warning
 
 ```
