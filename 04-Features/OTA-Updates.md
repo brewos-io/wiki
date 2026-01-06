@@ -5,153 +5,225 @@ BrewOS supports Over-The-Air (OTA) firmware updates, allowing you to update firm
 ## Overview
 
 OTA updates provide:
+
 - **Wireless updates** - Update firmware without USB
 - **Convenient** - No need to open machine
-- **Safe** - Automatic rollback on failure
-- **Both firmwares** - Update Pico and ESP32
+- **Automatic download** - Both firmwares download from GitHub releases automatically
+- **Combined update** - Updates both Pico and ESP32 in a single operation
+- **No manual uploads** - Everything is handled automatically
 
 ## Prerequisites
 
-- **WiFi connection** - Machine must be on WiFi network
-- **Internet access** - For downloading updates (if using cloud)
-- **Stable connection** - Reliable WiFi connection required
+- **WiFi connection** - Machine must be connected to WiFi
+- **Internet access** - Required for downloading firmware from GitHub releases
+- **Stable connection** - Reliable WiFi connection required during update
+- **Device powered on** - Both Pico and ESP32 must be powered and connected
 
-## Updating ESP32 Firmware
+## Updating Firmware
+
+BrewOS uses a **combined OTA update** that automatically updates both the Pico (machine controller) and ESP32 (network controller) in a single operation. Both firmwares are downloaded from GitHub releases automatically - no manual file uploads are required.
 
 ### Via Web Interface
 
 1. **Access interface**:
-   - Go to Settings → Firmware Update
-   - Or navigate to firmware update page
 
-2. **Select firmware**:
-   - Choose firmware file (`.bin` for ESP32)
-   - Or use built-in update checker
+   - Go to Settings → System Settings → Firmware Update
+   - The system automatically checks for available updates
 
-3. **Upload and flash**:
-   - Click "Upload"
-   - Wait for upload to complete
-   - Firmware flashes automatically
-   - ESP32 reboots when complete
+2. **Select update channel**:
 
-### Update Process
+   - **Stable** - Production releases (recommended)
+   - **Beta** - Pre-release versions for testing
+   - **Dev** - Latest development builds (dev mode only)
 
-1. **Upload firmware** - Firmware uploaded to ESP32
-2. **Verification** - Firmware verified (checksum)
-3. **Flash** - Firmware written to flash
-4. **Reboot** - ESP32 reboots with new firmware
-5. **Verification** - System verifies new firmware
+3. **Check for updates**:
 
-## Updating Pico Firmware
+   - Click "Check" to refresh available versions
+   - Available updates are shown with version numbers and release dates
 
-### Via Web Interface (OTA)
+4. **Install update**:
+   - Click "Install" on the desired version
+   - Confirm the update in the dialog
+   - The system automatically downloads and installs both firmwares
 
-1. **Access interface**:
-   - Go to Settings → Firmware Update
-   - Select Pico firmware update
+### Combined Update Process
 
-2. **Select firmware**:
-   - Choose `.uf2` file for your machine type
-   - `brewos_dual_boiler.uf2`
-   - `brewos_single_boiler.uf2`
-   - `brewos_heat_exchanger.uf2`
+The OTA update process automatically handles both firmwares in sequence:
 
-3. **Upload and flash**:
-   - Click "Upload"
-   - Wait for upload to complete
-   - Click "Flash Pico"
-   - Pico reboots when complete
+#### Step 1: Update Pico (Machine Controller)
 
-### Update Process
+1. **Download** - ESP32 downloads Pico firmware from GitHub releases (automatically selects correct file for your machine type)
+2. **Bootloader entry** - ESP32 sends command to Pico to enter serial bootloader mode
+3. **Bootloader ACK** - Pico confirms bootloader is ready
+4. **Stream firmware** - ESP32 streams firmware data to Pico via UART
+5. **Flash** - Pico writes firmware to flash memory
+6. **Reboot** - Pico resets and boots with new firmware
+7. **Verification** - ESP32 verifies Pico is running the new version
 
-1. **Upload firmware** - Firmware uploaded to ESP32
-2. **Serial bootloader** - Pico enters bootloader mode
-3. **Stream firmware** - ESP32 streams firmware to Pico
-4. **Flash** - Pico writes firmware to flash
-5. **Reboot** - Pico reboots with new firmware
+#### Step 2: Update ESP32 (Network Controller)
 
-## Automatic Updates
+1. **Download** - ESP32 downloads its own firmware from GitHub releases
+2. **Flash** - Firmware is written to flash memory
+3. **Reboot** - ESP32 automatically reboots with new firmware
+4. **Verification** - System verifies new firmware on boot
 
-### Update Notifications
+**Note:** Both firmwares are downloaded automatically from GitHub releases. The system automatically selects the correct Pico firmware file based on your machine type (dual boiler, single boiler, or heat exchanger). No manual file uploads or selections are required.
 
-- **Version check** - System checks for updates
-- **Notification** - Notifies when update available
-- **Manual update** - User initiates update
+## Update Channels
 
-### Update Channels
+BrewOS supports three update channels:
 
-- **Stable** - Production releases
-- **Beta** - Pre-release testing
-- **Development** - Latest development builds
+### Stable Channel
+
+- **Recommended for most users**
+- Production releases that have been tested
+- Most stable and reliable versions
+- Tagged releases (e.g., `v1.0.0`)
+
+### Beta Channel
+
+- Pre-release versions for testing
+- Includes new features before stable release
+- May contain bugs or incomplete features
+- Tagged as pre-releases on GitHub
+
+### Dev Channel
+
+- Latest builds from main branch
+- For developers and advanced users
+- May be unstable or contain breaking changes
+- Only available when dev mode is enabled
+- Tagged as `dev-latest` on GitHub
+
+You can switch between channels in the firmware update settings. The system will show available updates for your selected channel.
+
+## Update Notifications
+
+The system can notify you when updates are available:
+
+- **Automatic checking** - System periodically checks GitHub for new releases
+- **In-app notifications** - Notification appears when updates are available
+- **Manual check** - Click "Check" button to manually check for updates
+- **Manual installation** - All updates require user confirmation to install
+
+**Note:** Updates are not installed automatically. You must manually initiate each update.
 
 ## Safety Features
 
-### Automatic Rollback
-
-If update fails:
-- **Detection** - System detects failed update
-- **Rollback** - Automatically reverts to previous firmware
-- **Notification** - Alerts user of rollback
-- **Stability** - Machine remains functional
-
 ### Verification
 
-- **Checksum** - Firmware verified before flashing
-- **Compatibility** - Machine type verified
-- **Size check** - Firmware size verified
+- **Size check** - Firmware size is verified before flashing
+- **Download verification** - ESP32 verifies complete download before flashing
+- **Flash verification** - ESP32 OTA library verifies successful flash
+
+### Error Handling
+
+- **Connection errors** - Automatic retry on network failures
+- **Download errors** - Clear error messages if download fails
+- **Flash errors** - Update is aborted if flash fails
+- **Progress tracking** - Real-time progress updates during download and flash
+
+### Update States
+
+The system provides real-time feedback during updates:
+
+- **Download** - Downloading firmware from GitHub
+- **Flash** - Writing firmware to flash memory
+- **Complete** - Update finished successfully
+- **Error** - Update failed with error message
 
 ## Best Practices
 
 ### Before Updating
 
-- **Backup settings** - Document important settings
-- **Stable connection** - Ensure reliable WiFi
-- **Don't interrupt** - Don't power off during update
-- **Read release notes** - Understand what's new
+- **Check release notes** - Read what's new in the update
+- **Stable connection** - Ensure reliable WiFi connection
+- **Don't interrupt** - Don't power off or close browser during update
+- **Backup settings** - Document important settings (settings are preserved, but good practice)
 
 ### During Update
 
-- **Wait patiently** - Updates take several minutes
-- **Don't interrupt** - Don't close browser or power off
-- **Monitor progress** - Watch update progress
-- **Don't use machine** - Avoid using during update
+- **Wait patiently** - Updates can take several minutes
+- **Don't interrupt** - Don't close browser, power off, or disconnect WiFi
+- **Monitor progress** - Watch the update overlay for progress
+- **Don't use machine** - Avoid using the machine during update
 
 ### After Update
 
-- **Verify version** - Check firmware version
+- **Verify version** - Check firmware version in System Settings
 - **Test functions** - Verify machine works correctly
 - **Check settings** - Verify settings are intact
-- **Review changes** - Read release notes
+- **Review changes** - Read release notes for new features
 
 ## Troubleshooting
 
-### Update Fails
+### Update Fails to Start
 
-- **Check connection** - Verify stable WiFi
-- **Try again** - Retry update
-- **Check firmware** - Verify firmware file is correct
-- **Manual update** - Try USB update method
+- **Check connection** - Verify stable WiFi and internet connection
+- **Check device status** - Ensure device is online and connected
+- **Try again** - Retry the update
+- **Check logs** - Review system logs for error messages
 
-### Update Stuck
+### Download Fails (ESP32)
 
-- **Wait longer** - Updates can take time
-- **Check progress** - Monitor update progress
-- **Don't interrupt** - Don't power off or close browser
-- **If stuck** - May need to power cycle and retry
+- **Internet connection** - Verify device has internet access
+- **GitHub access** - Check if GitHub releases are accessible
+- **Retry** - The system automatically retries on network errors
+- **Check version** - Verify the selected version exists on GitHub
+- **Wait and retry** - GitHub may be temporarily unavailable
+
+### Pico Update Fails During Combined OTA
+
+- **Machine type detection** - Ensure device is powered on and connected (ESP32 needs to know machine type)
+- **Download failure** - Check internet connection and GitHub accessibility
+- **Bootloader entry** - Pico may fail to enter bootloader mode
+- **UART connection** - Verify ESP32-Pico UART connection is working
+- **Storage space** - ESP32 may not have enough free space for temporary firmware file
+- **Retry** - Try the update again
+
+### Update Stuck or Slow
+
+- **Wait longer** - Downloads can take several minutes depending on connection
+- **Check progress** - Monitor the update overlay for progress
+- **Don't interrupt** - Don't power off, close browser, or disconnect WiFi
+- **Network speed** - Slow internet will make downloads take longer
+- **If truly stuck** - Wait 5-10 minutes, then check device status
+
+### Device Disconnects During Update
+
+- **Normal behavior** - Device may reboot during update (this is expected)
+- **Wait for reconnect** - Device will reconnect automatically after reboot
+- **Check overlay** - Update overlay will show reconnection status
+- **Don't refresh** - The overlay persists across page refreshes
+- **If stuck offline** - Wait 5 minutes, then check if device is back online
 
 ### Version Not Updating
 
-- **Check file** - Verify firmware file is correct version
-- **Clear cache** - Clear browser cache
-- **Try different file** - Download fresh firmware
-- **Manual verification** - Check version after update
+- **Check current version** - Verify what version is actually installed
+- **Refresh page** - Clear browser cache and refresh
+- **Check channel** - Ensure you're checking the correct update channel
+- **Manual verification** - Check version in System Settings after update completes
 
-### Rollback Occurred
+### Combined Update Fails Partway Through
 
-- **Check logs** - Review update logs
-- **Try again** - Retry update
-- **Check compatibility** - Verify firmware is compatible
-- **Contact support** - If issue persists
+- **Pico update succeeded, ESP32 failed** - Device will restart and may be in inconsistent state
+- **Check versions** - Verify which firmware was updated successfully
+- **Retry update** - Try the update again (system will skip already-updated firmware if possible)
+- **Check logs** - Review system logs for specific error messages
+- **Manual recovery** - As last resort, use USB update method for the failed component
+
+### Update Error Messages
+
+Common error messages and solutions:
+
+- **"Not enough storage space"** - ESP32 doesn't have enough free space for temporary firmware files
+- **"Download failed"** - Check internet connection and GitHub accessibility
+- **"Connection stalled"** - Network issue during download, wait and retry
+- **"Timeout"** - Download took too long, check connection speed
+- **"Write failed"** - Flash memory error, retry update
+- **"Device not ready"** - Machine type not detected, ensure device is powered on and connected
+- **"Device not responding"** - Pico failed to enter bootloader mode, check UART connection
+- **"Update failed - restarting"** - One component failed, device will restart and may need retry
 
 ## Related Features
 
@@ -161,4 +233,3 @@ If update fails:
 ---
 
 **Next:** [Machine-Specific Guides](../05-Machine-Specific/) or [Troubleshooting](../06-Troubleshooting/)
-
