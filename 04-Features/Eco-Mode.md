@@ -1,0 +1,192 @@
+# Eco Mode
+
+Eco Mode is an energy-saving feature that automatically reduces the brew boiler temperature when the machine is idle, significantly reducing power consumption while keeping the machine in a semi-ready state.
+
+## Overview
+
+Eco Mode provides:
+
+- **Automatic activation** - Enters eco mode after idle period
+- **Reduced temperature** - Lowers brew boiler to eco temperature
+- **Quick recovery** - Fast return to brewing temperature
+- **Energy savings** - Significant power reduction
+
+## How It Works
+
+### Automatic Activation
+
+1. **Idle detection** - Machine detects when idle (not brewing, no activity)
+2. **Timeout** - After configured timeout (default: 30 minutes)
+3. **Enter eco** - Brew boiler temperature lowered to eco setpoint
+4. **Steam unchanged** - Steam boiler temperature unchanged
+
+### Temperature Management
+
+| Mode           | Brew Temp | Steam Temp         |
+| -------------- | --------- | ------------------ |
+| Normal (READY) | ~93-95°C  | ~145°C             |
+| Eco Mode       | ~80°C     | ~145°C (unchanged) |
+
+The lower eco temperature (~80°C) significantly reduces heat loss and power consumption while remaining warm enough for quick recovery.
+
+### State Flow
+
+```
+READY → [idle timeout] → ECO → [user activity] → HEATING → READY
+```
+
+### Wake on Activity
+
+Eco mode exits automatically on:
+
+- **User interaction** - Button press, encoder rotation
+- **Mode change** - Changing machine mode
+- **Brewing start** - Starting a shot
+- **Any command** - Any user command
+
+## Configuration
+
+### Settings
+
+Configure eco mode in Settings → Eco Mode:
+
+- **Enabled** - Enable/disable auto-eco timeout
+- **Eco Brew Temp** - Target temperature in eco mode (50-90°C, default: 80°C)
+- **Auto-Eco After** - Minutes of idle before entering eco (0-480, default: 30)
+  - 0 = disabled (no auto-eco)
+
+### Recommended Settings
+
+- **Eco temperature**: 80°C - Good balance of savings and recovery
+- **Timeout**: 30 minutes - Good for typical home use
+- **Adjust for usage**: If you brew every hour, increase timeout
+
+## Power Savings
+
+Estimated power reduction in eco mode:
+
+| Scenario               | Normal    | Eco Mode | Savings    |
+| ---------------------- | --------- | -------- | ---------- |
+| Idle power (brew only) | ~150W avg | ~50W avg | ~67%       |
+| Daily cost (8hr idle)  | ~$0.30    | ~$0.10   | ~$0.20/day |
+
+_Values are approximate and depend on ambient temperature, machine insulation, and local electricity rates._
+
+## Manual Control
+
+### Enter Eco Mode Manually
+
+You can manually enter eco mode:
+
+- **From web interface** - Use eco mode button
+- **Via command** - Send eco command
+- **From settings** - Enable eco mode manually
+
+### Exit Eco Mode
+
+Eco mode exits automatically on activity, or manually:
+
+- **Wake button** - Click wake button in interface
+- **Any activity** - Any user interaction
+- **Mode change** - Changing to ready mode
+
+## Recovery Time
+
+### Typical Recovery
+
+Recovery from eco mode to brewing temperature:
+
+- **Time**: 2-5 minutes typical
+- **Depends on**:
+  - Temperature difference (normal - eco)
+  - Heater power
+  - Ambient temperature
+  - Machine insulation
+
+### Optimizing Recovery
+
+- **Pre-wake** - Wake machine 5-10 minutes before brewing
+- **Schedules** - Use schedules to wake before morning routine
+- **Monitor** - Watch temperature during recovery
+- **Adjust timeout** - Longer timeout = more savings, longer recovery
+
+## Best Practices
+
+### Timeout Selection
+
+- **30 minutes** - Good balance for most users
+- **60+ minutes** - If you brew every hour
+- **Shorter** - If you want faster recovery
+- **Consider usage** - Match timeout to your routine
+
+### Temperature Selection
+
+- **80°C** - Recommended, good balance
+- **Lower** - More savings, longer recovery
+- **Higher** - Faster recovery, less savings
+- **Experiment** - Find what works for you
+
+### Usage Patterns
+
+- **Morning routine** - Use schedules to wake before first shot
+- **Evening** - Let eco mode activate naturally
+- **Frequent use** - Increase timeout or disable
+- **Infrequent use** - Lower timeout for more savings
+
+## Troubleshooting
+
+### Eco Mode Not Activating
+
+1. **Check enabled**:
+
+   - Verify eco mode is enabled in settings
+   - Check timeout is not 0 (disabled)
+
+2. **Check machine state**:
+
+   - Must be in READY state (not IDLE or HEATING)
+   - Won't activate during brewing
+
+3. **Check activity**:
+   - Any activity resets idle timer
+   - Verify no background processes
+
+### Slow Recovery
+
+1. **Check temperature difference**:
+
+   - Larger difference = longer recovery
+   - Consider higher eco temperature
+
+2. **Check heater**:
+
+   - Verify heater is working
+   - Check power supply
+   - Review diagnostics
+
+3. **Normal behavior**:
+   - 2-5 minutes is typical
+   - Allow time for recovery
+
+### Settings Not Persisting
+
+1. **Check flash**:
+
+   - Eco config saved to flash
+   - Flash write requires ~100ms
+   - Don't power off immediately after changing
+
+2. **Verify save**:
+   - Check settings are saved
+   - Review configuration
+   - Try saving again
+
+## Related Features
+
+- [Scheduling](Scheduling.md) - Auto-on/off schedules
+- [Temperature Control](Temperature-Control.md) - Temperature management
+- [Power Metering](Power-Metering.md) - Monitor energy savings
+
+---
+
+**Next:** [Statistics](Statistics.md) or [WiFi Connectivity](WiFi-Connectivity.md)
