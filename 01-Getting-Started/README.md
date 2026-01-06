@@ -5,6 +5,7 @@ Welcome to BrewOS! This section will help you understand what BrewOS is and get 
 ## Contents
 
 - [What is BrewOS?](What-is-BrewOS.md) - Introduction and overview of the system
+- [Hardware Architecture](Hardware-Architecture.md) - Dual-microcontroller design and component overview
 - [System Requirements](System-Requirements.md) - Hardware and machine requirements
 - [Quick Start Guide](Quick-Start-Guide.md) - Fast-track setup for experienced users
 
