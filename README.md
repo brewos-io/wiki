@@ -25,9 +25,42 @@ This repository contains the complete user documentation for [BrewOS](https://gi
 - **Troubleshooting** - Common issues and solutions
 - **Advanced topics** - Custom configurations and API reference
 
+## ⚠️ Disclaimer
+
+```
+⚠️  USE AT YOUR OWN RISK
+
+BrewOS software, hardware designs, and documentation are provided "as is"
+without warranty of any kind.
+
+• Software is provided as-is without guarantees
+• Features may be updated or improved over time
+• Hardware designs are provided for informational purposes only
+• Always follow safety guidelines and local electrical codes
+
+BY USING BREWOS, YOU ACKNOWLEDGE THAT:
+
+• You assume full responsibility for any use of this project
+• You will not hold the authors, contributors, or maintainers liable for any
+  damages, injuries, or losses resulting from the use of this project
+• You have the technical knowledge and qualifications to safely work with
+  high-voltage electrical systems
+• You will follow all applicable local electrical codes and regulations
+• You understand the risks involved with modifying espresso machine electrical
+  systems and accept full responsibility for any consequences
+
+The authors and contributors of this project are not responsible for any injury,
+death, property damage, equipment damage, or other liability arising from the
+use, misuse, or inability to use this project's software, hardware designs,
+documentation, or any related materials.
+```
+
+**Status:** ✅ Production Ready
+
 ## 🚀 Quick Start
 
 **New to BrewOS?** Start here:
+
 1. [What is BrewOS?](01-Getting-Started/What-is-BrewOS.md) - Introduction and overview
 2. [System Requirements](01-Getting-Started/System-Requirements.md) - Check compatibility
 3. [Installation & Setup](02-Installation-Setup/) - Complete installation guide
@@ -35,24 +68,31 @@ This repository contains the complete user documentation for [BrewOS](https://gi
 ## 📖 Wiki Contents
 
 ### [01. Getting Started](01-Getting-Started/)
+
 Introduction to BrewOS, system requirements, and quick start guide.
 
 ### [02. Installation & Setup](02-Installation-Setup/)
+
 Complete installation process from hardware to initial configuration.
 
 ### [03. User Manual](03-User-Manual/)
+
 Comprehensive guide to using the BrewOS web interface and controlling your machine.
 
 ### [04. Features](04-Features/)
+
 Detailed documentation for all BrewOS features including temperature control, scheduling, integrations, and more.
 
 ### [05. Machine-Specific](05-Machine-Specific/)
+
 Configuration guides for dual boiler, single boiler, and heat exchanger machines, plus compatibility lists.
 
 ### [06. Troubleshooting](06-Troubleshooting/)
+
 Common issues, error codes, diagnostics, and getting help.
 
 ### [07. Advanced](07-Advanced/)
+
 Advanced configuration, API reference, and hardware modifications.
 
 ## 🔗 Related Repositories
