@@ -197,3 +197,4 @@ The ESP32-S3 and Pico communicate via high-speed UART:
 
 **Next:** [System Requirements](System-Requirements.md) or [What is BrewOS?](What-is-BrewOS.md)
 
+
